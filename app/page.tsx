@@ -144,6 +144,10 @@ export default async function Home() {
   const content = await getContent();
   const encodedAddress = encodeURIComponent("333 SW Wilshire Blvd Suite G Burleson TX 76028");
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+  const soupMenu = menu.find((group) => group.category === "Soups");
+  const supportingMenus = menu.filter((group) => group.category !== "Soups");
+  const featuredSoup = soupMenu?.items[0] ?? ["Broccoli Cheese", "Velvety, comforting, and a weekly favorite."];
+  const secondarySoups = soupMenu?.items.slice(1) ?? [];
 
   return (
     <main>
@@ -233,8 +237,38 @@ export default async function Home() {
           <h2>Built for lunch-hour clarity.</h2>
           <p>Scan fast, choose confidently, and call when you&apos;re ready for pickup.</p>
         </div>
-        <div className="menu-grid">
-          {menu.map((group) => (
+
+        <div className="soup-showcase" aria-labelledby="featured-soup-title">
+          <article className="featured-soup-card">
+            <div className="featured-soup-photo" aria-label="Creamy soup with sandwich and iced tea" />
+            <div className="featured-soup-copy">
+              <span className="badge">Chef&apos;s Pick</span>
+              <p className="eyebrow">Today&apos;s Featured Soup</p>
+              <h3 id="featured-soup-title">{featuredSoup[0]}</h3>
+              <p>{featuredSoup[1]}</p>
+              <a className="button primary" href="tel:+18174472989">Order This Soup</a>
+            </div>
+          </article>
+
+          <aside className="soup-sidebar" aria-label="Other soup options and weekly specials">
+            <div className="weekly-note">
+              <span>Weekly Special</span>
+              <strong>{content.soupOfWeek}</strong>
+            </div>
+            <div className="other-soups">
+              <p className="mini-heading">Other Soups</p>
+              {secondarySoups.map(([name, detail]) => (
+                <div className="quiet-soup" key={name}>
+                  <strong>{name}</strong>
+                  <span>{detail}</span>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+
+        <div className="menu-grid supporting-menu">
+          {supportingMenus.map((group) => (
             <article className="menu-card" key={group.category}>
               <h3>{group.category}</h3>
               {group.items.map(([name, detail]) => (
