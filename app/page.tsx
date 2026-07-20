@@ -22,6 +22,8 @@ type MenuItem = {
   name: string;
   detail: string;
   price?: string;
+  tag?: string;
+  pairing?: string;
 };
 
 type MenuGroup = {
@@ -47,7 +49,7 @@ const menu: MenuGroup[] = [
     category: "Soup - Homemade Daily",
     note: "Cup $3.95 · Bowl $4.95 · Pint $5.95 · Slice of bread $.50",
     items: [
-      { name: "Soup of the Day", detail: "Homemade daily and served by the cup, bowl, or pint.", price: "$3.95+" },
+      { name: "Soup of the Day", detail: "Homemade daily and served by the cup, bowl, or pint.", price: "$3.95+", tag: "Chef Recommendation", pairing: "Pairs perfectly with a half sandwich." },
       { name: "Weekly Soup Lineup", detail: "Rotating weekday soups, updated by the cafe team." },
       { name: "Bread on the Side", detail: "Add a slice of bread to make it lunch-ready.", price: "$.50" },
     ],
@@ -56,8 +58,8 @@ const menu: MenuGroup[] = [
     category: "Deluxe Sandwiches",
     note: "Include cole slaw, potato salad, pasta salad, or chips.",
     items: [
-      { name: "SW Turkey", detail: "Turkey, provolone, green chilis, red onions, tomato, lettuce, and chipotle mayonnaise.", price: "$10.95" },
-      { name: "Stone Soup Club", detail: "Turkey, ham, bacon, American cheese, tomato, lettuce, and mayo on three slices of toast.", price: "$11.75" },
+      { name: "SW Turkey", detail: "Turkey, provolone, green chilis, red onions, tomato, lettuce, and chipotle mayonnaise.", price: "$10.95", tag: "Most Popular", pairing: "Order it with today's soup for the lunch move." },
+      { name: "Stone Soup Club", detail: "Turkey, ham, bacon, American cheese, tomato, lettuce, and mayo on three slices of toast.", price: "$11.75", tag: "Staff Favorite" },
       { name: "Reuben", detail: "Hot pastrami and turkey, swiss cheese, sauerkraut, and 1000 island on marble rye.", price: "$11.75" },
       { name: "Buffalo Chicken Ranch", detail: "Chicken breast, provolone, buffalo ranch sauce, pickles, lettuce, tomato, and mayo.", price: "$10.95" },
       { name: "California Dreamer", detail: "Smoked turkey, avocado, provolone, lettuce, tomato, and mayo on a croissant.", price: "$11.75" },
@@ -72,7 +74,7 @@ const menu: MenuGroup[] = [
       { name: "Roasted Chicken", detail: "Build it with lettuce, tomato, red onion, cucumber, bell pepper, mayo, mustard, or dijon.", price: "$8.75" },
       { name: "Pastrami", detail: "A richer build-your-own option with premium meat and cheese choices.", price: "$9.75" },
       { name: "Albacore Tuna", detail: "A cafe staple for a lighter lunch.", price: "$8.75" },
-      { name: "Grilled Cheese", detail: "Simple, warm, and lunch-break friendly.", price: "$7.50" },
+      { name: "Grilled Cheese", detail: "Simple, warm, and lunch-break friendly.", price: "$7.50", tag: "Perfect Pairing", pairing: "Best with tomato soup." },
       { name: "Half Build Your Own", detail: "A smaller sandwich option when soup is the star.", price: "$6.25" },
     ],
   },
@@ -81,7 +83,7 @@ const menu: MenuGroup[] = [
     note: "Dressings include Italian, 1000 Island, Ranch, Raspberry Vinaigrette, Honey Mustard, Balsamic Vinaigrette, and Bleu Cheese.",
     items: [
       { name: "Tossed Salad", detail: "Tossed greens, cheese, tomato, and cucumber.", price: "$4.50 / $6.95" },
-      { name: "Cooks Salad", detail: "Tossed greens, turkey, ham, cheese, bell pepper, sunflower seeds, croutons, tomato, and cucumber.", price: "$6.50 / $9.95" },
+      { name: "Cooks Salad", detail: "Tossed greens, turkey, ham, cheese, bell pepper, sunflower seeds, croutons, tomato, and cucumber.", price: "$6.50 / $9.95", tag: "Fresh Pick" },
       { name: "Chef Salad", detail: "Tossed greens, turkey, ham, cheese, egg, tomato, and cucumber.", price: "$6.50 / $9.95" },
       { name: "Chicken or Albacore Tuna Salad", detail: "Served on a bed of tossed greens.", price: "$6.50 / $9.95" },
       { name: "Haystack Taco Salad", detail: "A meatless taco salad option.", price: "$6.50 / $9.95" },
@@ -91,7 +93,7 @@ const menu: MenuGroup[] = [
     category: "Breakfast",
     note: "Served weekday mornings.",
     items: [
-      { name: "Fried Egg Sandwich - One Egg", detail: "Croissant or bagel with bacon or ham and your choice of cheese.", price: "$7.25" },
+      { name: "Fried Egg Sandwich - One Egg", detail: "Croissant or bagel with bacon or ham and your choice of cheese.", price: "$7.25", tag: "Morning Favorite" },
       { name: "Fried Egg Sandwich - Two Egg", detail: "Croissant or bagel with bacon or ham and your choice of cheese.", price: "$8.25" },
       { name: "Bagel", detail: "Assorted bagels.", price: "$2.00" },
       { name: "Bagel with Cream Cheese", detail: "Simple and fast for breakfast.", price: "$2.75" },
@@ -257,8 +259,8 @@ export default async function Home() {
           <p className="eyebrow">Burleson, Texas • Fresh weekday lunch</p>
           <h1>Lunch should feel this good.</h1>
           <p className="lede">
-            Handmade soups, craveable sandwiches, and office-ready catering from
-            Burleson&apos;s neighborhood cafe.
+            Steam rising from handmade soup, sandwiches stacked with care, and
+            the kind of neighborhood welcome that makes a quick lunch feel personal.
           </p>
           <div className="hero-actions" aria-label="Primary actions">
             <a className="button primary" href="tel:+18174472989">Call to Order</a>
@@ -277,6 +279,9 @@ export default async function Home() {
           </dl>
         </div>
         <div className="hero-visual" aria-label="Fresh soup and sandwich lunch photography">
+          <span className="steam steam-one" aria-hidden="true" />
+          <span className="steam steam-two" aria-hidden="true" />
+          <span className="steam steam-three" aria-hidden="true" />
           <div className="photo-card photo-main">
             <span>Soup of the Week</span>
             <strong>{todaySoup ? `${todaySoup.day}: ${todaySoup.soups}` : featuredSoup.name}</strong>
@@ -294,6 +299,15 @@ export default async function Home() {
         <a href="#menu">View Menu</a>
         <a href="#catering">Order Catering</a>
         <a href={directionsUrl}>Find Directions</a>
+      </section>
+
+      <section className="food-story-strip" aria-label="Fresh Stone Soup Cafe food photography">
+        <div className="food-frame food-frame-large">
+          <span>Hot soup. Fresh bread. Lunch made with care.</span>
+        </div>
+        <div className="food-frame food-frame-small">
+          <span>Sandwiches cut to order.</span>
+        </div>
       </section>
 
       <section className="section specials" id="specials">
@@ -368,6 +382,8 @@ export default async function Home() {
                 <div className="quiet-soup" key={item.name}>
                   <strong>{item.name}</strong>
                   <span>{item.detail}</span>
+                  {item.tag ? <em className="menu-tag">{item.tag}</em> : null}
+                  {item.pairing ? <small>{item.pairing}</small> : null}
                 </div>
               ))}
             </div>
@@ -401,27 +417,78 @@ export default async function Home() {
         </a>
       </section>
 
-      <section className="section catering" id="catering">
-        <div>
-          <p className="eyebrow">Catering</p>
-          <h2>Bring Stone Soup to your meeting, shower, team lunch, or local event.</h2>
-          <p>{content.seasonalBanner}</p>
-          <ul className="check-list">
-            <li>Soup, sandwich, salad, dessert, and drink-friendly menus</li>
-            <li>Pickup or delivery planning</li>
-            <li>Friendly portions for offices, families, and community groups</li>
-          </ul>
+      <section className="section story" id="story">
+        <div className="story-copy">
+          <p className="eyebrow">Why Burleson Loves Stone Soup</p>
+          <h2>Food that feels homemade because it is treated that way.</h2>
+          <p>
+            Stone Soup Cafe is built on the small things people remember: fresh
+            ingredients, friendly faces, warm recipes, and lunch that makes the
+            day feel a little more cared for.
+          </p>
         </div>
-        <form className="catering-form" aria-label="Catering request form">
-          <label>Date<input type="date" name="date" required /></label>
-          <label>Guest count<input type="number" name="guests" min="1" placeholder="25" required /></label>
-          <label>Budget<input type="text" name="budget" placeholder="$250-$400" /></label>
-          <label>Pickup or delivery<select name="fulfillment"><option>Pickup</option><option>Delivery</option></select></label>
-          <label>Preferred menu<textarea name="menu" placeholder="Soup and sandwich trays, salads, desserts..." /></label>
-          <label>Business name<input type="text" name="business" placeholder="Company or event name" /></label>
-          <label>Contact information<input type="text" name="contact" placeholder="Name, phone, and email" required /></label>
-          <a className="button primary full" href="tel:+18174472989">Call to Request Catering</a>
-        </form>
+        <div className="story-points" aria-label="Stone Soup Cafe values">
+          <article>
+            <span>Fresh</span>
+            <p>Soups rotate through the week so lunch always feels alive.</p>
+          </article>
+          <article>
+            <span>Local</span>
+            <p>A Burleson cafe with a welcome that feels familiar.</p>
+          </article>
+          <article>
+            <span>Comfort</span>
+            <p>Simple food, generous portions, and recipes made for real lunch breaks.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="section catering" id="catering">
+        <div className="catering-hero">
+          <div>
+            <p className="eyebrow">Catering</p>
+            <h2>We&apos;ll handle lunch.</h2>
+            <p>
+              Whether you&apos;re feeding five people or five hundred, Stone Soup
+              makes it simple to serve something warm, fresh, and easy to love.
+            </p>
+            <a className="button primary" href="tel:+18174472989">Start a Catering Order</a>
+          </div>
+        </div>
+        <div className="catering-details">
+          <div>
+            <p className="eyebrow">Simple planning</p>
+            <h3>Tell us the day, the crowd, and what sounds good.</h3>
+            <p>{content.seasonalBanner}</p>
+            <ol className="process-list">
+              <li><strong>Choose the plan</strong><span>Pickup or delivery, soup, sandwiches, salads, desserts, and drinks.</span></li>
+              <li><strong>Share the headcount</strong><span>We help size portions for offices, families, and community groups.</span></li>
+              <li><strong>Enjoy the room</strong><span>Lunch arrives simple, friendly, and ready to serve.</span></li>
+            </ol>
+          </div>
+          <form className="catering-form" aria-label="Catering request form">
+            <label>Date<input type="date" name="date" required /></label>
+            <label>Guest count<input type="number" name="guests" min="1" placeholder="25" required /></label>
+            <label>Budget<input type="text" name="budget" placeholder="$250-$400" /></label>
+            <label>Pickup or delivery<select name="fulfillment"><option>Pickup</option><option>Delivery</option></select></label>
+            <label>Preferred menu<textarea name="menu" placeholder="Soup and sandwich trays, salads, desserts..." /></label>
+            <label>Business name<input type="text" name="business" placeholder="Company or event name" /></label>
+            <label>Contact information<input type="text" name="contact" placeholder="Name, phone, and email" required /></label>
+            <a className="button primary full" href="tel:+18174472989">Call to Request Catering</a>
+          </form>
+        </div>
+      </section>
+
+      <section className="gallery-band" aria-label="Stone Soup Cafe lunch details">
+        <div>
+          <span>Fresh bread</span>
+        </div>
+        <div>
+          <span>Soup by the bowl</span>
+        </div>
+        <div>
+          <span>Cookies for the finish</span>
+        </div>
       </section>
 
       <section className="section reviews" aria-label="Customer reviews">
@@ -432,9 +499,14 @@ export default async function Home() {
         </div>
         {googleReviews.map((review) => (
           <figure key={review.quote}>
-            <div className="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <div className="review-meta">
+              <span className="review-avatar" aria-hidden="true">{review.author.charAt(0)}</span>
+              <div>
+                <div className="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <figcaption>{review.author} · {review.note}</figcaption>
+              </div>
+            </div>
             <blockquote>{review.quote}</blockquote>
-            <figcaption>{review.author} · {review.note}</figcaption>
           </figure>
         ))}
       </section>
@@ -457,10 +529,48 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer>
-        <strong>Stone Soup Cafe</strong>
-        <span>Fresh soup, sandwiches, healthy lunch, and catering in Burleson, Texas.</span>
-        <a href="/admin">Staff dashboard</a>
+      <footer className="site-footer">
+        <div className="footer-brand">
+          <span className="brand-mark" aria-hidden="true">S</span>
+          <div>
+            <strong>Stone Soup Cafe</strong>
+            <span>Fresh soup, sandwiches, healthy lunch, and catering in Burleson, Texas.</span>
+          </div>
+        </div>
+        <div className="footer-grid">
+          <section aria-label="Hours">
+            <h2>Hours</h2>
+            <p>{content.hours}</p>
+          </section>
+          <section aria-label="Contact">
+            <h2>Visit</h2>
+            <p>333 SW Wilshire Blvd Suite G<br />Burleson, TX 76028</p>
+            <a href="tel:+18174472989">817.447.2989</a>
+            <a href={directionsUrl}>Get directions</a>
+          </section>
+          <section aria-label="Quick navigation">
+            <h2>Quick Links</h2>
+            <a href="#specials">Today&apos;s specials</a>
+            <a href="#menu">Menu</a>
+            <a href="#catering">Catering</a>
+            <a href="/admin">Staff dashboard</a>
+          </section>
+          <section aria-label="Newsletter signup">
+            <h2>Lunch Notes</h2>
+            <p>Get soup updates and catering reminders from the cafe.</p>
+            <form className="footer-signup">
+              <label>
+                Email address
+                <input type="email" name="email" placeholder="you@example.com" />
+              </label>
+              <button type="submit">Sign Up</button>
+            </form>
+          </section>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 Stone Soup Cafe.</span>
+          <span>Made for warm lunches in Burleson.</span>
+        </div>
       </footer>
 
       <nav className="mobile-actions" aria-label="Mobile quick actions">
