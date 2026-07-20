@@ -18,6 +18,18 @@ type Content = {
   hours: string;
 };
 
+type MenuItem = {
+  name: string;
+  detail: string;
+  price?: string;
+};
+
+type MenuGroup = {
+  category: string;
+  note?: string;
+  items: MenuItem[];
+};
+
 const defaultContent: Content = {
   soupOfWeek:
     "Monday Broccoli Cheese and Creamy Tomato with Pasta; Tuesday Baked Potato and Southwest Corn Chowder; Wednesday Chicken Enchilada and Mushroom Beer Cheese; Thursday Chicken Tortilla and Creamy Chicken Mushroom; Friday Broccoli Cheese and White Bean Chicken.",
@@ -30,37 +42,69 @@ const defaultContent: Content = {
   hours: "Monday-Thursday 8:30 AM-3:00 PM. Friday 8:30 AM-2:30 PM. Closed Saturday and Sunday.",
 };
 
-const menu = [
+const menu: MenuGroup[] = [
   {
-    category: "Soups",
+    category: "Soup - Homemade Daily",
+    note: "Cup $3.95 · Bowl $4.95 · Pint $5.95 · Slice of bread $.50",
     items: [
-      ["Broccoli Cheese", "Velvety, comforting, and a weekly favorite."],
-      ["Chicken Tortilla", "Savory chicken, gentle spice, and crisp toppings."],
-      ["Baked Potato", "Creamy potato soup built for a proper lunch break."],
+      { name: "Soup of the Day", detail: "Homemade daily and served by the cup, bowl, or pint.", price: "$3.95+" },
+      { name: "Weekly Soup Lineup", detail: "Rotating weekday soups, updated by the cafe team." },
+      { name: "Bread on the Side", detail: "Add a slice of bread to make it lunch-ready.", price: "$.50" },
     ],
   },
   {
-    category: "Sandwiches",
+    category: "Deluxe Sandwiches",
+    note: "Include cole slaw, potato salad, pasta salad, or chips.",
     items: [
-      ["SW Turkey", "Turkey, provolone, green chilis, vegetables, and chipotle mayo."],
-      ["Build Your Own", "Choose your bread, protein, cheese, vegetables, and spread."],
-      ["Half Sandwich + Soup", "The fast Stone Soup classic for lunch in Burleson."],
+      { name: "SW Turkey", detail: "Turkey, provolone, green chilis, red onions, tomato, lettuce, and chipotle mayonnaise.", price: "$10.95" },
+      { name: "Stone Soup Club", detail: "Turkey, ham, bacon, American cheese, tomato, lettuce, and mayo on three slices of toast.", price: "$11.75" },
+      { name: "Reuben", detail: "Hot pastrami and turkey, swiss cheese, sauerkraut, and 1000 island on marble rye.", price: "$11.75" },
+      { name: "Buffalo Chicken Ranch", detail: "Chicken breast, provolone, buffalo ranch sauce, pickles, lettuce, tomato, and mayo.", price: "$10.95" },
+      { name: "California Dreamer", detail: "Smoked turkey, avocado, provolone, lettuce, tomato, and mayo on a croissant.", price: "$11.75" },
+      { name: "Veggie Supreme", detail: "Tomato, mushrooms, chilis, cucumber, peppers, olives, onion, mayo, herb cream cheese, and provolone.", price: "$10.95" },
+    ],
+  },
+  {
+    category: "Build Your Own",
+    note: "Choose bread, meat, cheese, condiments, and add extras.",
+    items: [
+      { name: "Turkey", detail: "A clean classic with your choice of bread and condiments.", price: "$8.75" },
+      { name: "Roasted Chicken", detail: "Build it with lettuce, tomato, red onion, cucumber, bell pepper, mayo, mustard, or dijon.", price: "$8.75" },
+      { name: "Pastrami", detail: "A richer build-your-own option with premium meat and cheese choices.", price: "$9.75" },
+      { name: "Albacore Tuna", detail: "A cafe staple for a lighter lunch.", price: "$8.75" },
+      { name: "Grilled Cheese", detail: "Simple, warm, and lunch-break friendly.", price: "$7.50" },
+      { name: "Half Build Your Own", detail: "A smaller sandwich option when soup is the star.", price: "$6.25" },
     ],
   },
   {
     category: "Salads",
+    note: "Dressings include Italian, 1000 Island, Ranch, Raspberry Vinaigrette, Honey Mustard, Balsamic Vinaigrette, and Bleu Cheese.",
     items: [
-      ["House Salad", "Crisp greens, fresh vegetables, and your choice of dressing."],
-      ["Chicken Salad Plate", "A lighter lunch with the cafe's handmade feel."],
-      ["Seasonal Bowl", "Fresh produce-driven specials when available."],
+      { name: "Tossed Salad", detail: "Tossed greens, cheese, tomato, and cucumber.", price: "$4.50 / $6.95" },
+      { name: "Cooks Salad", detail: "Tossed greens, turkey, ham, cheese, bell pepper, sunflower seeds, croutons, tomato, and cucumber.", price: "$6.50 / $9.95" },
+      { name: "Chef Salad", detail: "Tossed greens, turkey, ham, cheese, egg, tomato, and cucumber.", price: "$6.50 / $9.95" },
+      { name: "Chicken or Albacore Tuna Salad", detail: "Served on a bed of tossed greens.", price: "$6.50 / $9.95" },
+      { name: "Haystack Taco Salad", detail: "A meatless taco salad option.", price: "$6.50 / $9.95" },
     ],
   },
   {
-    category: "Desserts & Drinks",
+    category: "Breakfast",
+    note: "Served weekday mornings.",
     items: [
-      ["Cookie Included", "Select lunches include a cookie for the sweetest finish."],
-      ["Cupcakes", "Rotating flavors from the bakery case."],
-      ["Tea & Soft Drinks", "Easy pairings for pickup, dine-in, or office orders."],
+      { name: "Fried Egg Sandwich - One Egg", detail: "Croissant or bagel with bacon or ham and your choice of cheese.", price: "$7.25" },
+      { name: "Fried Egg Sandwich - Two Egg", detail: "Croissant or bagel with bacon or ham and your choice of cheese.", price: "$8.25" },
+      { name: "Bagel", detail: "Assorted bagels.", price: "$2.00" },
+      { name: "Bagel with Cream Cheese", detail: "Simple and fast for breakfast.", price: "$2.75" },
+      { name: "Croissant", detail: "Buttery breakfast side.", price: "$1.75" },
+    ],
+  },
+  {
+    category: "Extras & Beverages",
+    note: "Delivery available 11am-2pm.",
+    items: [
+      { name: "Chips, Cole Slaw, Potato Salad, or Pasta Salad", detail: "Classic side choices for sandwiches.", price: "$2.00" },
+      { name: "Extra Meat", detail: "Half sandwich or whole sandwich add-on.", price: "$1.50 / $3.00" },
+      { name: "Soft Drinks", detail: "Coke, Diet Coke, Root Beer, Dr. Pepper, 7up, Diet Dr Pepper, lemonade, tea, and sweet tea.", price: "$2.25 / $2.75" },
     ],
   },
 ];
@@ -106,6 +150,7 @@ function sandwichSpecial(sandwichText: string) {
     name: namePart.trim() || "SW Turkey",
     ingredients: ingredients.trim().replace(/^./, (letter) => letter.toUpperCase()),
     included: included.startsWith("Includes") ? included : `Includes ${included}`,
+    price: "$10.95",
   };
 }
 
@@ -182,9 +227,9 @@ export default async function Home() {
   const content = await getContent();
   const encodedAddress = encodeURIComponent("333 SW Wilshire Blvd Suite G Burleson TX 76028");
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
-  const soupMenu = menu.find((group) => group.category === "Soups");
-  const supportingMenus = menu.filter((group) => group.category !== "Soups");
-  const featuredSoup = soupMenu?.items[0] ?? ["Broccoli Cheese", "Velvety, comforting, and a weekly favorite."];
+  const soupMenu = menu.find((group) => group.category.includes("Soup"));
+  const supportingMenus = menu.filter((group) => !group.category.includes("Soup"));
+  const featuredSoup = soupMenu?.items[0] ?? { name: "Soup of the Day", detail: "Homemade daily and served by the cup, bowl, or pint." };
   const secondarySoups = soupMenu?.items.slice(1) ?? [];
   const soupLineup = weeklySoupLineup(content.soupOfWeek);
   const todaySoup = soupLineup[0];
@@ -233,7 +278,7 @@ export default async function Home() {
         <div className="hero-visual" aria-label="Fresh soup and sandwich lunch photography">
           <div className="photo-card photo-main">
             <span>Soup of the Week</span>
-            <strong>{todaySoup ? `${todaySoup.day}: ${todaySoup.soups}` : featuredSoup[0]}</strong>
+            <strong>{todaySoup ? `${todaySoup.day}: ${todaySoup.soups}` : featuredSoup.name}</strong>
           </div>
           <div className="photo-card photo-side">
             <span>Sandwich of the Week</span>
@@ -259,14 +304,14 @@ export default async function Home() {
         <div className="special-grid">
           <article className="featured-special">
             <span>Today&apos;s soup</span>
-            <h3>{todaySoup?.soups ?? featuredSoup[0]}</h3>
+            <h3>{todaySoup?.soups ?? featuredSoup.name}</h3>
             <p>{todaySoup ? `${todaySoup.day}'s featured bowls, ready for pickup.` : "Fresh soup, ready for pickup."}</p>
           </article>
           <article className="sandwich-special">
             <div className="sandwich-panel">
               <div className="sandwich-topline">
                 <span>Featured sandwich</span>
-                <div className="special-price">$10.50 lunch special</div>
+              <div className="special-price">{sandwich.price} deluxe</div>
               </div>
               <h3>{sandwich.name}</h3>
               <p>{sandwich.ingredients}</p>
@@ -298,8 +343,8 @@ export default async function Home() {
             <div className="featured-soup-copy">
               <span className="badge">Chef&apos;s Pick</span>
               <p className="eyebrow">Today&apos;s Featured Soup</p>
-              <h3 id="featured-soup-title">{featuredSoup[0]}</h3>
-              <p>{featuredSoup[1]}</p>
+              <h3 id="featured-soup-title">{featuredSoup.name}</h3>
+              <p>{featuredSoup.detail}</p>
               <a className="button primary" href="tel:+18174472989">Order This Soup</a>
             </div>
           </article>
@@ -318,10 +363,10 @@ export default async function Home() {
             </div>
             <div className="other-soups">
               <p className="mini-heading">Other Soups</p>
-              {secondarySoups.map(([name, detail]) => (
-                <div className="quiet-soup" key={name}>
-                  <strong>{name}</strong>
-                  <span>{detail}</span>
+              {secondarySoups.map((item) => (
+                <div className="quiet-soup" key={item.name}>
+                  <strong>{item.name}</strong>
+                  <span>{item.detail}</span>
                 </div>
               ))}
             </div>
@@ -332,15 +377,22 @@ export default async function Home() {
           {supportingMenus.map((group) => (
             <article className="menu-card" key={group.category}>
               <h3>{group.category}</h3>
-              {group.items.map(([name, detail]) => (
-                <div className="menu-item" key={name}>
-                  <strong>{name}</strong>
-                  <span>{detail}</span>
+              {group.note ? <p className="menu-note">{group.note}</p> : null}
+              {group.items.map((item) => (
+                <div className="menu-item" key={item.name}>
+                  <div className="menu-title-row">
+                    <strong>{item.name}</strong>
+                    {item.price ? <span className="menu-price">{item.price}</span> : null}
+                  </div>
+                  <span>{item.detail}</span>
                 </div>
               ))}
             </article>
           ))}
         </div>
+        <a className="pdf-link" href="https://img1.wsimg.com/blobby/go/b707bd5e-b23c-40e9-9566-f3028ce016d1/MenurevisedJune2025.pdf">
+          View the full June 2025 PDF menu
+        </a>
       </section>
 
       <section className="section catering" id="catering">
