@@ -982,6 +982,11 @@ dd {
   color: var(--ink);
 }
 
+.process-list span {
+  grid-column: 2;
+  margin-top: -8px;
+}
+
 .gallery-band {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   background: var(--paper);
