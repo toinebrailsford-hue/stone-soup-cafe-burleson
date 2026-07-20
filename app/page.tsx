@@ -467,6 +467,10 @@ export default async function Home() {
               <li><strong>Share the headcount</strong><span>We help size portions for offices, families, and community groups.</span></li>
               <li><strong>Enjoy the room</strong><span>Lunch arrives simple, friendly, and ready to serve.</span></li>
             </ol>
+            <div className="catering-support-card">
+              <span>Popular for</span>
+              <p>Office lunches, teacher meals, showers, team meetings, and easy Friday gatherings.</p>
+            </div>
           </div>
           <form className="catering-form" aria-label="Catering request form">
             <label>Date<input type="date" name="date" required /></label>
