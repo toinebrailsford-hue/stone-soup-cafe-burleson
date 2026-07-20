@@ -402,6 +402,8 @@ export default async function Home() {
                     {item.price ? <span className="menu-price">{item.price}</span> : null}
                   </div>
                   <span>{item.detail}</span>
+                  {item.tag ? <em className="menu-tag">{item.tag}</em> : null}
+                  {item.pairing ? <small>{item.pairing}</small> : null}
                 </div>
               ))}
               {group.items.length > menuPreviewLimit ? (
