@@ -263,12 +263,16 @@ export default async function Home() {
             <p>{todaySoup ? `${todaySoup.day}'s featured bowls, ready for pickup.` : "Fresh soup, ready for pickup."}</p>
           </article>
           <article className="sandwich-special">
-            <span>Featured sandwich</span>
-            <div className="special-price">$10.50 lunch special</div>
-            <h3>{sandwich.name}</h3>
-            <p>{sandwich.ingredients}</p>
-            <div className="included-note">{sandwich.included}</div>
-            <a className="button" href="tel:+18174472989">Order the Sandwich</a>
+            <div className="sandwich-panel">
+              <div className="sandwich-topline">
+                <span>Featured sandwich</span>
+                <div className="special-price">$10.50 lunch special</div>
+              </div>
+              <h3>{sandwich.name}</h3>
+              <p>{sandwich.ingredients}</p>
+              <div className="included-note">{sandwich.included}</div>
+              <a className="button" href="tel:+18174472989">Order the Sandwich</a>
+            </div>
           </article>
           <article className="daily-note">
             <span>Daily note</span>
