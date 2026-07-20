@@ -65,11 +65,37 @@ const menu = [
   },
 ];
 
-const reviews = [
-  "Fresh, friendly, and exactly what a local cafe should be.",
-  "The soup and sandwich combo is the lunch move in Burleson.",
-  "Reliable catering, warm service, and food people actually finish.",
+const googleReviews = [
+  {
+    quote: "Broccoli soup was the best that I've tried around here.",
+    author: "Rickey B. Cole",
+    note: "Google review",
+  },
+  {
+    quote: "The food was fresh, flavorful, and clearly made with quality ingredients.",
+    author: "Sarah Hulcy",
+    note: "Google review",
+  },
+  {
+    quote: "Staff was very friendly and patient with me.",
+    author: "Rosa",
+    note: "Google review",
+  },
 ];
+
+function weeklySoupLineup(soupText: string) {
+  return soupText
+    .split(";")
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => {
+      const [day = "", ...rest] = entry.split(" ");
+      return {
+        day,
+        soups: rest.join(" ").replace(" and ", " + "),
+      };
+    });
+}
 
 async function getContent(): Promise<Content> {
   try {
@@ -148,6 +174,8 @@ export default async function Home() {
   const supportingMenus = menu.filter((group) => group.category !== "Soups");
   const featuredSoup = soupMenu?.items[0] ?? ["Broccoli Cheese", "Velvety, comforting, and a weekly favorite."];
   const secondarySoups = soupMenu?.items.slice(1) ?? [];
+  const soupLineup = weeklySoupLineup(content.soupOfWeek);
+  const todaySoup = soupLineup[0];
 
   return (
     <main>
@@ -168,7 +196,7 @@ export default async function Home() {
       <section className="hero" id="top">
         <div className="hero-copy">
           <p className="eyebrow">Burleson, Texas • Fresh weekday lunch</p>
-          <h1>Handmade soup, stacked sandwiches, and catering with a local heart.</h1>
+          <h1>Fresh soup and warm cafe lunches, made for Burleson.</h1>
           <p className="lede">
             Stone Soup Cafe is the easy choice for a warm lunch, a quick pickup order,
             or food that makes the whole office pause for a better meal.
@@ -192,7 +220,7 @@ export default async function Home() {
         <div className="hero-visual" aria-label="Fresh soup and sandwich lunch photography">
           <div className="photo-card photo-main">
             <span>Soup of the Week</span>
-            <strong>{content.soupOfWeek.split(";")[0]}</strong>
+            <strong>{todaySoup ? `${todaySoup.day}: ${todaySoup.soups}` : featuredSoup[0]}</strong>
           </div>
           <div className="photo-card photo-side">
             <span>Sandwich of the Week</span>
@@ -216,13 +244,25 @@ export default async function Home() {
           <p>{content.announcement}</p>
         </div>
         <div className="special-grid">
-          <article>
+          <article className="featured-special">
             <span>Today&apos;s soup</span>
-            <h3>{content.soupOfWeek}</h3>
+            <h3>{todaySoup?.soups ?? featuredSoup[0]}</h3>
+            <p>{todaySoup ? `${todaySoup.day}'s featured bowls, ready for pickup.` : "Fresh soup, ready for pickup."}</p>
           </article>
           <article>
             <span>Featured sandwich</span>
             <h3>{content.sandwichOfWeek}</h3>
+          </article>
+          <article>
+            <span>Weekly lineup</span>
+            <div className="compact-lineup" aria-label="Weekly soup lineup">
+              {soupLineup.map((item) => (
+                <div key={item.day}>
+                  <strong>{item.day}</strong>
+                  <span>{item.soups}</span>
+                </div>
+              ))}
+            </div>
           </article>
           <article>
             <span>Daily note</span>
@@ -253,7 +293,14 @@ export default async function Home() {
           <aside className="soup-sidebar" aria-label="Other soup options and weekly specials">
             <div className="weekly-note">
               <span>Weekly Special</span>
-              <strong>{content.soupOfWeek}</strong>
+              <div className="weekly-list">
+                {soupLineup.map((item) => (
+                  <div key={item.day}>
+                    <strong>{item.day}</strong>
+                    <span>{item.soups}</span>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="other-soups">
               <p className="mini-heading">Other Soups</p>
@@ -306,10 +353,16 @@ export default async function Home() {
       </section>
 
       <section className="section reviews" aria-label="Customer reviews">
-        {reviews.map((review) => (
-          <figure key={review}>
-            <blockquote>{review}</blockquote>
-            <figcaption>Local customer</figcaption>
+        <div className="reviews-heading">
+          <p className="eyebrow">Google Reviews</p>
+          <h2>People come back for the soup.</h2>
+          <p>4.6 stars on Google, surfaced through Restaurant Guru from 244 Google reviews.</p>
+        </div>
+        {googleReviews.map((review) => (
+          <figure key={review.quote}>
+            <div className="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>{review.quote}</blockquote>
+            <figcaption>{review.author} · {review.note}</figcaption>
           </figure>
         ))}
       </section>
