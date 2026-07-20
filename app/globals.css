@@ -630,7 +630,7 @@ dd {
 }
 
 .menu-card {
-  padding: 24px;
+  padding: clamp(18px, 2.4vw, 24px);
 }
 
 .menu-card h3 {
@@ -648,7 +648,7 @@ dd {
 .menu-item {
   display: grid;
   gap: 6px;
-  padding: 18px 0;
+  padding: 14px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -678,6 +678,15 @@ dd {
   white-space: nowrap;
 }
 
+.more-menu-note {
+  margin: 16px 0 0;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  color: var(--tomato);
+  font-size: 0.9rem;
+  font-weight: 950;
+}
+
 .pdf-link {
   display: inline-flex;
   min-height: 48px;
@@ -691,6 +700,13 @@ dd {
   color: var(--sage-dark);
   font-weight: 950;
   text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.pdf-link:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: 0 14px 30px rgba(36, 32, 24, 0.1);
 }
 
 @keyframes rise-in {

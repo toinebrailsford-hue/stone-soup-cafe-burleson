@@ -229,6 +229,7 @@ export default async function Home() {
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
   const soupMenu = menu.find((group) => group.category.includes("Soup"));
   const supportingMenus = menu.filter((group) => !group.category.includes("Soup"));
+  const menuPreviewLimit = 4;
   const featuredSoup = soupMenu?.items[0] ?? { name: "Soup of the Day", detail: "Homemade daily and served by the cup, bowl, or pint." };
   const secondarySoups = soupMenu?.items.slice(1) ?? [];
   const soupLineup = weeklySoupLineup(content.soupOfWeek);
@@ -378,7 +379,7 @@ export default async function Home() {
             <article className="menu-card" key={group.category}>
               <h3>{group.category}</h3>
               {group.note ? <p className="menu-note">{group.note}</p> : null}
-              {group.items.map((item) => (
+              {group.items.slice(0, menuPreviewLimit).map((item) => (
                 <div className="menu-item" key={item.name}>
                   <div className="menu-title-row">
                     <strong>{item.name}</strong>
@@ -387,11 +388,16 @@ export default async function Home() {
                   <span>{item.detail}</span>
                 </div>
               ))}
+              {group.items.length > menuPreviewLimit ? (
+                <p className="more-menu-note">
+                  + {group.items.length - menuPreviewLimit} more in the full menu
+                </p>
+              ) : null}
             </article>
           ))}
         </div>
         <a className="pdf-link" href="https://img1.wsimg.com/blobby/go/b707bd5e-b23c-40e9-9566-f3028ce016d1/MenurevisedJune2025.pdf">
-          View the full June 2025 PDF menu
+          View full menu
         </a>
       </section>
 
