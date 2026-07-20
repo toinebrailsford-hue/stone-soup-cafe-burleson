@@ -73,7 +73,7 @@ const reviews = [
 
 async function getContent(): Promise<Content> {
   try {
-    const db = getDb();
+    const db = await getDb();
     const row = await db
       .select()
       .from(siteContent)

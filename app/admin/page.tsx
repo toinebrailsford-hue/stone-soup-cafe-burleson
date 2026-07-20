@@ -24,7 +24,7 @@ const initialContent = {
 
 async function getInitialContent() {
   try {
-    const db = getDb();
+    const db = await getDb();
     const row = await db
       .select()
       .from(siteContent)

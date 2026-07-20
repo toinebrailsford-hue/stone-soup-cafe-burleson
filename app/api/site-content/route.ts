@@ -28,7 +28,7 @@ function mergeDefaults(payload: Partial<typeof defaultPayload>) {
 }
 
 async function ensureTable() {
-  const db = getDb();
+  const db = await getDb();
   await db.run(sql.raw(`
     CREATE TABLE IF NOT EXISTS site_content (
       key TEXT PRIMARY KEY,
