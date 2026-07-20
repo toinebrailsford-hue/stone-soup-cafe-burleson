@@ -97,6 +97,18 @@ function weeklySoupLineup(soupText: string) {
     });
 }
 
+function sandwichSpecial(sandwichText: string) {
+  const [namePart, detailPart = "Turkey, provolone, green chilis, lettuce, tomato, red onion, and chipotle mayo."] =
+    sandwichText.split(" with ");
+  const [ingredients = detailPart, included = "Includes a side and cookie."] =
+    detailPart.split(". Includes ");
+  return {
+    name: namePart.trim() || "SW Turkey",
+    ingredients: ingredients.trim().replace(/^./, (letter) => letter.toUpperCase()),
+    included: included.startsWith("Includes") ? included : `Includes ${included}`,
+  };
+}
+
 async function getContent(): Promise<Content> {
   try {
     const db = await getDb();
@@ -176,6 +188,7 @@ export default async function Home() {
   const secondarySoups = soupMenu?.items.slice(1) ?? [];
   const soupLineup = weeklySoupLineup(content.soupOfWeek);
   const todaySoup = soupLineup[0];
+  const sandwich = sandwichSpecial(content.sandwichOfWeek);
 
   return (
     <main>
@@ -196,10 +209,10 @@ export default async function Home() {
       <section className="hero" id="top">
         <div className="hero-copy">
           <p className="eyebrow">Burleson, Texas • Fresh weekday lunch</p>
-          <h1>Fresh soup and warm cafe lunches, made for Burleson.</h1>
+          <h1>Lunch should feel this good.</h1>
           <p className="lede">
-            Stone Soup Cafe is the easy choice for a warm lunch, a quick pickup order,
-            or food that makes the whole office pause for a better meal.
+            Handmade soups, craveable sandwiches, and office-ready catering from
+            Burleson&apos;s neighborhood cafe.
           </p>
           <div className="hero-actions" aria-label="Primary actions">
             <a className="button primary" href="tel:+18174472989">Call to Order</a>
@@ -224,7 +237,7 @@ export default async function Home() {
           </div>
           <div className="photo-card photo-side">
             <span>Sandwich of the Week</span>
-            <strong>{content.sandwichOfWeek}</strong>
+            <strong>{sandwich.name}</strong>
           </div>
         </div>
       </section>
@@ -249,24 +262,21 @@ export default async function Home() {
             <h3>{todaySoup?.soups ?? featuredSoup[0]}</h3>
             <p>{todaySoup ? `${todaySoup.day}'s featured bowls, ready for pickup.` : "Fresh soup, ready for pickup."}</p>
           </article>
-          <article>
+          <article className="sandwich-special">
             <span>Featured sandwich</span>
-            <h3>{content.sandwichOfWeek}</h3>
+            <div className="special-price">$10.50 lunch special</div>
+            <h3>{sandwich.name}</h3>
+            <p>{sandwich.ingredients}</p>
+            <div className="included-note">{sandwich.included}</div>
+            <a className="button" href="tel:+18174472989">Order the Sandwich</a>
           </article>
-          <article>
-            <span>Weekly lineup</span>
-            <div className="compact-lineup" aria-label="Weekly soup lineup">
-              {soupLineup.map((item) => (
-                <div key={item.day}>
-                  <strong>{item.day}</strong>
-                  <span>{item.soups}</span>
-                </div>
-              ))}
-            </div>
-          </article>
-          <article>
+          <article className="daily-note">
             <span>Daily note</span>
             <h3>{content.dailySpecials}</h3>
+            <div className="daily-note-actions">
+              <a href="#menu">See menu</a>
+              <a href="tel:+18174472989">Call ahead</a>
+            </div>
           </article>
         </div>
       </section>
